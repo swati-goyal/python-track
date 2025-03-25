@@ -8,7 +8,13 @@ def create_inventory(items):
     :return: dict - the inventory dictionary.
     """
 
-    pass
+    inventory = {}
+    keys = set(items)
+    values = [items.count(key) for key in keys]
+
+    for key, value in zip(keys, values):
+        inventory[key] = value
+    return inventory
 
 
 def add_items(inventory, items):
@@ -18,9 +24,16 @@ def add_items(inventory, items):
     :param items: list - list of items to update the inventory with.
     :return: dict - the inventory updated with the new items.
     """
+    new_inventory_items = create_inventory(items)
 
-    pass
-
+    for key in new_inventory_items:
+        if key in inventory.keys():
+            inventory[key] += new_inventory_items[key]
+        else:
+            inventory[key] = new_inventory_items[key]
+    
+    return inventory
+        
 
 def decrement_items(inventory, items):
     """Decrement items in inventory using elements from the `items` list.
@@ -30,7 +43,11 @@ def decrement_items(inventory, items):
     :return: dict - updated inventory with items decremented.
     """
 
-    pass
+    for item in items:
+        if item in inventory.keys() and inventory[item] > 0:
+            inventory[item] -= 1
+
+    return inventory
 
 
 def remove_item(inventory, item):
@@ -40,8 +57,11 @@ def remove_item(inventory, item):
     :param item: str - item to remove from the inventory.
     :return: dict - updated inventory with item removed. Current inventory if item does not match.
     """
-
-    pass
+    for key in inventory.keys():
+        if key == item:
+            inventory.pop(key, "Removed")
+            break
+    return inventory
 
 
 def list_inventory(inventory):
@@ -50,6 +70,8 @@ def list_inventory(inventory):
     :param inventory: dict - an inventory dictionary.
     :return: list of tuples - list of key, value pairs from the inventory dictionary.
     """
-
-    pass
-
+    inventory_list = []
+    for key, value in inventory.items():
+        if value != 0:
+            inventory_list.append((key, value))
+    return inventory_list
