@@ -34,10 +34,10 @@ def check_drinks(drink_name, drink_ingredients):
     name followed by "Cocktail" (includes alcohol).
 
     """
-    category_name = ' Cocktail'
+    category_name = " Cocktail"
 
     if set(drink_ingredients).isdisjoint(ALCOHOLS):
-        category_name = ' Mocktail'
+        category_name = " Mocktail"
 
 
     return drink_name + category_name
@@ -56,7 +56,7 @@ def categorize_dish(dish_name, dish_ingredients):
 
     """
 
-    category_name = ''
+    category_name = ""
     category_list = {"VEGAN": VEGAN, "VEGETARIAN": VEGETARIAN, "PALEO": PALEO, "KETO": KETO, "OMNIVORE": OMNIVORE}
     for key, category in category_list.items():
         if len(set(dish_ingredients).intersection(category)) == len(set(dish_ingredients)):
@@ -78,8 +78,12 @@ def tag_special_ingredients(dish):
     For the purposes of this exercise, all allergens or special ingredients that need to be tracked are in the
     SPECIAL_INGREDIENTS constant imported from `sets_categories_data.py`.
     """
-
-    pass
+    special_ingredients = set(dish[1]).intersection(SPECIAL_INGREDIENTS)
+    tagged_list = ()
+    if len(special_ingredients) > 0:
+        tagged_list = (dish[0], special_ingredients)
+    
+    return tagged_list
 
 
 def compile_ingredients(dishes):
@@ -90,8 +94,11 @@ def compile_ingredients(dishes):
 
     This function should return a `set` of all ingredients from all listed dishes.
     """
+    master_list = set()
+    for item in dishes:
+        master_list |= item
 
-    pass
+    return master_list
 
 
 def separate_appetizers(dishes, appetizers):
@@ -105,7 +112,7 @@ def separate_appetizers(dishes, appetizers):
     Either list could contain duplicates and may require de-duping.
     """
 
-    pass
+    return list(set(dishes).difference(set(appetizers)))
 
 
 def singleton_ingredients(dishes, intersection):
@@ -122,5 +129,8 @@ def singleton_ingredients(dishes, intersection):
 
     The function should return a `set` of ingredients that only appear in a single dish.
     """
-
-    pass
+    singleton_list = set()
+    for item in dishes:
+        singleton_list |= item.difference(intersection)
+    
+    return singleton_list
